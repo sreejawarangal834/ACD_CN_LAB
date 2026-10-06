@@ -1,0 +1,83 @@
+import java.util.Scanner;
+
+public class CRC {
+
+    // Perform CRC division using XOR
+    static String crcDivision(String data, String generator) {
+        int dataLen = data.length();
+        int genLen = generator.length();
+
+        char[] temp = data.toCharArray();
+
+        // XOR division
+        for (int i = 0; i <= dataLen - genLen; i++) {
+            if (temp[i] == '1') {
+                for (int j = 0; j < genLen; j++) {
+                    if (temp[i + j] == generator.charAt(j))
+                        temp[i + j] = '0';
+                    else
+                        temp[i + j] = '1';
+                }
+            }
+        }
+
+        // Last (genLen - 1) bits are the remainder
+        return new String(temp, dataLen - genLen + 1, genLen - 1);
+    }
+
+    // Convert a word into binary ASCII
+    static String wordToBinary(String word) {
+        StringBuilder binary = new StringBuilder();
+
+        for (int i = 0; i < word.length(); i++) {
+            int ch = word.charAt(i);
+
+            for (int j = 7; j >= 0; j--) {
+                if ((ch & (1 << j)) != 0)
+                    binary.append('1');
+                else
+                    binary.append('0');
+            }
+        }
+
+        return binary.toString();
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        String generator = "10011";
+
+        System.out.print("Enter a word: ");
+        String word = sc.next();
+
+        // Convert word to binary
+        String data = wordToBinary(word);
+
+        System.out.println("\nData in binary : " + data);
+        System.out.println("Generator      : " + generator);
+
+        // Append n-1 zeros
+        StringBuilder paddedData = new StringBuilder(data);
+
+        for (int i = 0; i < generator.length() - 1; i++) {
+            paddedData.append('0');
+        }
+
+        // Find CRC remainder
+        String remainder = crcDivision(
+            paddedData.toString(),
+            generator
+        );
+
+        System.out.println("CRC Remainder  : " + remainder);
+
+        // Append CRC to original data
+        String transmitted = data + remainder;
+
+        System.out.println("Transmitted Data: " + transmitted);
+
+        sc.close();
+    }
+}
