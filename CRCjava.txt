@@ -27,9 +27,11 @@ public class CRC {
 
     // Convert a word into binary ASCII
     static String wordToBinary(String word) {
+
         StringBuilder binary = new StringBuilder();
 
         for (int i = 0; i < word.length(); i++) {
+            
             int ch = word.charAt(i);
 
             for (int j = 7; j >= 0; j--) {
@@ -56,7 +58,7 @@ public class CRC {
         String data = wordToBinary(word);
 
         System.out.println("\nData in binary : " + data);
-        System.out.println("Generator      : " + generator);
+        System.out.println("Generator      : " + generator); 
 
         // Append n-1 zeros
         StringBuilder paddedData = new StringBuilder(data);

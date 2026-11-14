@@ -21,6 +21,8 @@
 
 "//".*
         { /* Ignore comments */ }
+"/*"([^*]|\*+[^*/])*\*+"/" 
+         { /* Multi line comments */ }
 
 [ \t\n]+
         { /* Ignore whitespace */ }
